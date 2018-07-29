@@ -1,0 +1,40 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<div class="row">
+    <div class="col-9">
+        <div class="row text-center" *ngIf="artifacts.length <= 0">
+            <div class="alert alert-danger" role="alert">
+                No artifacts for verification!
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4" *ngFor="let artifact of artifacts">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        <h5 class="card-title">
+                            {{artifact.name}} - {{artifact.isVerified ? "Verified" : "Not Verified"}}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">{{artifact.address}}</h6>
+                        <p class="card-text">
+                            IPFS Hash: <a href="javascript:void(0)"
+                                          (click)="onIpfsClick(artifact.name, artifact.ipfsHash)">{{artifact.ipfsHash}}</a>
+                        </p>
+                        <p class="card-text">
+                            Type: {{artifact.type}}
+                        </p>
+                        <p class="card-text">Fee Paid: {{artifact.verifierFee}} ETH</p>
+                    </div>
+                    <div class="card-footer" *ngIf="!artifact.isVerified">
+                        <button type="button" class="btn btn-danger"
+                                (click)="onVerifyClick(artifact)">Verify
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="artifacts.length < 0">
+                No documents found.
+            </div>
+        </div>
+    </div>
+</div>

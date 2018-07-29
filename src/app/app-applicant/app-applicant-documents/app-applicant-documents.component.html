@@ -1,0 +1,108 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<div class="row">
+    <div class="col-3">
+        <div class="list-group">
+            <a href="/applicant/{{ethAddress}}/documents" class="list-group-item active">Documents</a>
+            <a href="/applicant/{{ethAddress}}/applications" class="list-group-item">Applications</a>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="row">
+            <div class="col-4">
+                <div class="card" style="width: 18rem;">
+                    <form #addDocumentFrm="ngForm" (ngSubmit)="onUploadClick(addDocumentFrm.value)" novalidate>
+                        <div class="card-header">
+                            <h5 class="card-title">Upload New Document</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="documentName">Document Name:</label>
+                                <input type="text" class="form-control" id="documentName" name="documentName" ngModel
+                                       required #documentName="ngModel">
+                                <div *ngIf="documentName.invalid && (documentName.dirty || documentName.touched)"
+                                     class="alert alert-danger">
+                                    <div *ngIf="documentName.errors.required">
+                                        Document Name is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="document">Document</label>
+                                <input type="file" id="document" name="document" ngModel
+                                       required #document="ngModel" (change)="changeListener($event.target)">
+                                <div *ngIf="document.invalid && (document.dirty || document.touched)"
+                                     class="alert alert-danger">
+                                    <div *ngIf="document.errors.required">
+                                        Document is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="documentType">Document Type</label>
+                                <select class='select-option' id="documentType" name="documentType" ngModel
+                                        required #documentType="ngModel">
+                                    <option class='option' *ngFor='let docType of docTypes' [value]="docType">
+                                        {{docType}}
+                                    </option>
+                                </select>
+                                <div *ngIf="documentType.invalid && (documentType.dirty || documentType.touched)"
+                                     class="alert alert-danger">
+                                    <div *ngIf="documentType.errors.required">
+                                        Document Type is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="verifier">Verifier</label>
+                                <select class='select-option' id="verifier" name="verifier" ngModel
+                                        required #verifier="ngModel">
+                                    <option class='option' *ngFor='let verifier of verifiers'
+                                            [value]="verifier.address">
+                                        {{verifier.name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="verifier.invalid && (verifier.dirty || verifier.touched)"
+                                     class="alert alert-danger">
+                                    <div *ngIf="verifier.errors.required">
+                                        Verifier is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-danger" [disabled]="!addDocumentFrm.form.valid">
+                                Upload
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-4" *ngFor="let artifact of artifacts">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        <h5 class="card-title">{{artifact.name}} - {{artifact.isVerified ? "Verified" : "Pending"}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">{{artifact.address}}</h6>
+                        <p class="card-text">
+                            IPFS Hash: <a href="javascript:void(0)"
+                                          (click)="onIpfsClick(artifact.name, artifact.ipfsHash)">{{artifact.ipfsHash}}</a>
+                        </p>
+                        <p class="card-text">
+                            Type: {{artifact.type}}
+                        </p>
+                        <p class="card-text">
+                            Verifier: {{artifact.verifierName}} ({{artifact.verifier}})
+                        </p>
+                        <p>Verifier Fee Paid: {{artifact.verifierFee}} ETH</p>
+                    </div>
+                    <div class="card-footer" *ngIf="!artifact.isVerified">
+                        <button class="btn btn-info"
+                                (click)="onDepositClick(artifact.address)">Deposit Verifier Fee
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

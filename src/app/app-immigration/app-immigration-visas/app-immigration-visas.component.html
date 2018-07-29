@@ -1,0 +1,64 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<div class="row">
+    <div class="col-3">
+        <div class="list-group">
+            <a href="/immigration/{{ethAddress}}/visas" class="list-group-item active">Visas</a>
+            <a href="/immigration/{{ethAddress}}/applications" class="list-group-item">Applications</a>
+            <a href="/immigration/{{ethAddress}}/verifiers" class="list-group-item">Verifiers</a>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="row">
+            <div class="col-4">
+                <div class="card" style="width: 18rem;">
+                    <form #addVisaFrm="ngForm" (ngSubmit)="onAddClick(addVisaFrm.value)" novalidate>
+                        <div class="card-header">
+                            <h5>Add Visa</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="visaName">Visa Name:</label>
+                                <input type="text" class="form-control" id="visaName" name="visaName" ngModel
+                                       required #visaName="ngModel">
+                                <div *ngIf="visaName.invalid && (visaName.dirty || visaName.touched)"
+                                     class="alert alert-danger">
+                                    <div *ngIf="visaName.errors.required">
+                                        Visa name is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="visaCode">Visa Code:</label>
+                                <input type="text" class="form-control" id="visaCode" name="visaCode" ngModel
+                                       required #visaCode="ngModel">
+                                <div *ngIf="visaCode.invalid && (visaCode.dirty || visaCode.touched)"
+                                     class="alert alert-danger">
+                                    <div *ngIf="visaCode.errors.required">
+                                        Visa Code is required.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary" [disabled]="!addVisaFrm.form.valid">Add
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-4" *ngFor="let visa of visas">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        <h5>{{visa.name}} - {{visa.code}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">{{visa.address}}</h6>
+                    </div>
+                    <div class="card-footer">
+                        <button type="button" class="btn btn-danger" (click)="onDisableClick()">Disable</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

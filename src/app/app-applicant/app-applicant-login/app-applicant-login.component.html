@@ -1,0 +1,23 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form #loginFrm="ngForm" (ngSubmit)="onClickSubmit(loginFrm.value)" novalidate>
+      <div class="form-group">
+        <label for="ethAddress">ETH Addres (ERC-20 Compatible):</label>
+        <input type="text" class="form-control" id="ethAddress" name="ethAddress" ngModel
+               required #ethAddress="ngModel" invalidEthAddress>
+        <div *ngIf="ethAddress.invalid && (ethAddress.dirty || ethAddress.touched)"
+             class="alert alert-danger">
+          <div *ngIf="ethAddress.errors.required">
+            ETH Address is required.
+          </div>
+          <div *ngIf="ethAddress.errors.invalidEthAddress">
+            ETH Address is invalid.
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-default" [disabled]="!loginFrm.form.valid">Submit</button>
+      <a class="btn btn-primary" href="#" role="button" routerLink="/applicant/register" routerLinkActive="active">Register</a>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,55 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form #registerFrm="ngForm" (ngSubmit)="onClickSubmit(registerFrm.value)" novalidate>
+      <div class="form-group">
+        <label for="firstName">First Name:</label>
+        <input type="text" class="form-control" id="firstName" name="firstName" ngModel
+               required #firstName="ngModel">
+        <div *ngIf="firstName.invalid && (firstName.dirty || firstName.touched)"
+             class="alert alert-danger">
+          <div *ngIf="firstName.errors.required">
+            First name is required.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="lastName">Last Name:</label>
+        <input type="text" class="form-control" id="lastName" name="lastName" ngModel
+               required #lastName="ngModel">
+        <div *ngIf="lastName.invalid && (lastName.dirty || lastName.touched)"
+             class="alert alert-danger">
+          <div *ngIf="lastName.errors.required">
+            Last name is required.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="dateOfBirth">Date Of Birth:</label>
+        <input type="text" class="form-control" id="dateOfBirth" name="dateOfBirth" ngModel
+               required #dateOfBirth="ngModel">
+        <div *ngIf="dateOfBirth.invalid && (dateOfBirth.dirty || dateOfBirth.touched)"
+             class="alert alert-danger">
+          <div *ngIf="dateOfBirth.errors.required">
+            Date of birth is required.
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="ethAddress">ETH Addres (ERC-20 Compatible):</label>
+        <input type="text" class="form-control" id="ethAddress" name="ethAddress" ngModel
+               required #ethAddress="ngModel" invalidEthAddress>
+        <div *ngIf="ethAddress.invalid && (ethAddress.dirty || ethAddress.touched)"
+             class="alert alert-danger">
+          <div *ngIf="ethAddress.errors.required">
+            ETH Address is required.
+          </div>
+          <div *ngIf="ethAddress.errors.invalidEthAddress">
+            ETH Address is invalid.
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-default" [disabled]="!registerFrm.form.valid">Submit</button>
+    </form>
+  </div>
+</div>

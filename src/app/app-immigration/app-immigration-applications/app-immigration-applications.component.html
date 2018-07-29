@@ -1,0 +1,50 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<div class="row">
+    <div class="col-3">
+        <div class="list-group">
+            <a href="/immigration/{{ethAddress}}/visas" class="list-group-item">Visas</a>
+            <a href="/immigration/{{ethAddress}}/applications" class="list-group-item active">Applications</a>
+            <a href="/immigration/{{ethAddress}}/verifiers" class="list-group-item">Verifiers</a>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="row text-center" *ngIf="applications.length <= 0">
+            <div class="alert alert-danger" role="alert">
+                No applications found!
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4" *ngFor="let application of applications">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        <h5 class="card-title">Owner: {{application.owner}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">Application: {{application.address}}</h6>
+                        <p class="card-text text-danger" *ngIf="!application.isActive">WITHDRAWN</p>
+                        <p class="card-text" *ngIf="application.visa">
+                            Visa: {{application.visa.name}}
+                        </p>
+                        <p class="card-text" *ngIf="application.artifacts">Documents</p>
+                        <ul class="card-text" *ngIf="application.artifacts">
+                            <li *ngFor="let artifact of application.artifacts">
+                                {{artifact.name}} - {{artifact.isVerified ? "Verified" : "Pending"}}
+                            </li>
+                        </ul>
+                        <p class="card-text">Fee Paid: {{application.fee}} ETH</p>
+                    </div>
+                    <div class="card-footer" *ngIf="application.isActive">
+                        <button *ngIf="!application.status" class="btn btn-primary"
+                                (click)="onApproveClick(application.address, true)">
+                            Approve
+                        </button>
+                        <button *ngIf="application.status" class="btn btn-danger"
+                                (click)="onApproveClick(application.address, false)">
+                            Disapprove
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

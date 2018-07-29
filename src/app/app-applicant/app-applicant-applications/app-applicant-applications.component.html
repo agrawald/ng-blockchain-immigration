@@ -1,0 +1,87 @@
+<ngx-loading [show]="loading" [config]="{ backdropBorderRadius: '14px' }"></ngx-loading>
+<div class="row">
+    <div class="col-3">
+        <div class="list-group">
+            <a href="/applicant/{{ethAddress}}/documents" class="list-group-item">Documents</a>
+            <a href="/applicant/{{ethAddress}}/applications" class="list-group-item active">Applications</a>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="row">
+            <div class="col-4">
+                <div class="card" style="width: 18rem;">
+                    <form #addApplicationFrm="ngForm" (ngSubmit)="onCreateClick(addApplicationFrm.value)"
+                          novalidate>
+                        <div class="card-header">
+                            <h5 class="card-title">Create New Application</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="visaType">Visa</label>
+                                <select class='select-option' id="visaType" name="visaType" ngModel
+                                        required #visaType="ngModel">
+                                    <option class='option' *ngFor="let visa of visas"
+                                            [value]="visa.address">
+                                        {{visa.name}}
+                                    </option>
+                                </select>
+                                <div *ngIf="visaType.invalid && (visaType.dirty || visaType.touched)"
+                                     class="alert alert-danger">
+                                    <div *ngIf="visaType.errors.required">
+                                        Visa Type is required.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <button id="documents" type="button" class="btn btn-default"
+                                            (click)=onAddArtifactsClick()>Add Artifacts
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <ul class="list-group">
+                                    <li class="list-group-item" *ngFor='let artifact of selectedArtifacts'>
+                                        {{artifact.name}}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-danger" [disabled]="!addApplicationFrm.form.valid">
+                                Save
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-4" *ngFor="let application of applications">
+                <div class="card" style="width: 18rem;">
+                    <div class="card-header">
+                        <h5 class="card-title">{{application.isActive ? (application.status ? "Approved" : "Pending") :
+                            "Withdrawn"}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted">{{application.address}}</h6>
+                        <p class="card-text" *ngIf="application.visa">Visa: {{application.visa.name}}</p>
+                        <p class="card-text" *ngIf="application.artifacts">Documents</p>
+                        <ul class="list-group" *ngIf="application.artifacts">
+                            <li class="list-group-item" *ngFor='let artifact of application.artifacts'>
+                                {{artifact.name}} - {{artifact.isVerified ? "Verifier" : "Not Verified"}}
+                            </li>
+                        </ul>
+                        <p class="card-text">Fee Paid: {{application.fee}} ETH</p>
+                    </div>
+                    <div class="card-footer" *ngIf="!application.status && application.isActive">
+                        <button class="btn btn-danger"
+                                (click)="onWithdrawClick(application.address)">Withdraw
+                        </button>
+                        <button class="btn btn-info"
+                                (click)="onDepositClick(application.address)">Deposit Fee
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
