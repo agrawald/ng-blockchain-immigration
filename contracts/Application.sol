@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.8;
 
 import "./Owned.sol";
 
@@ -9,22 +9,22 @@ contract Application is Owned {
     address applicant;
 
     // constructors
-    function Application(address _visa, address[] _artifacts) public {
-        owner = tx.origin;
+    constructor(address _visa, address[] memory _artifacts) public {
+        owner = msg.sender;
         visa_details = _visa;
         linked_artifacts = _artifacts;
         applicant = msg.sender;
     }
 
     function depositFee(uint _fee) public payable {
-        require(_fee == msg.value);
+        require(_fee == msg.value, "Fee is not equal to amount provided.");
     }
 
     function addArtifact(address _artifact) public onlyByOwner {
         linked_artifacts.push(_artifact) - 1;
     }
 
-    function getArtifacts() public view returns (address[]) {
+    function getArtifacts() public view returns (address[] memory) {
         return linked_artifacts;
     }
 

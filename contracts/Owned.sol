@@ -1,11 +1,11 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.8;
 
 contract Owned {
-    address public owner;
+    address payable public owner;
 
     // modifiers
     modifier onlyByOwner {
-        if (msg.sender != owner) revert();
+        if (msg.sender != owner) revert("Only owner can call this function");
         _;
     }
 }

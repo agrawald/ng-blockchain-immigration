@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.8;
 
 import "./Owned.sol";
 
@@ -18,13 +18,13 @@ contract Artifact is Owned {
 
     //modifier
     modifier onlyByVerifier() {
-        if (verifier != msg.sender) revert();
+        if (verifier != msg.sender) revert("Verifier must not the sender");
         _;
     }
 
     // constructors
-    function Artifact(bytes32 pName, bytes32 pDigest, uint pHashFunction, uint pSize, address pVerifier, bytes32 pType) public {
-        owner = tx.origin;
+    constructor(bytes32 pName, bytes32 pDigest, uint pHashFunction, uint pSize, address pVerifier, bytes32 pType) public {
+        owner = msg.sender;
         name = pName;
         ipfs = Multihash(pDigest, pHashFunction, pSize);
         verifier = pVerifier;
@@ -32,7 +32,7 @@ contract Artifact is Owned {
     }
 
     function depositVerifierFee(uint _fee) public payable {
-        require(_fee == msg.value);
+        require(_fee == msg.value, "Fee is not equal to amount specified");
     }
 
     function setValid(bool _flag) public payable {

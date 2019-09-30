@@ -1,9 +1,9 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.8;
 
 import "./Owned.sol";
 
 contract AdminRegistry is Owned {
-    function AdminRegistry() public {
+    constructor() public {
         owner = msg.sender;
     }
 }

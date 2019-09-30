@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.8;
 
 import "./Owned.sol";
 
@@ -8,8 +8,8 @@ contract Visa is Owned {
     bool public is_active;
 
     // constructors
-    function Visa(bytes32 _code, bytes32 _name) public {
-        owner = tx.origin;
+    constructor(bytes32 _code, bytes32 _name) public {
+        owner = msg.sender;
         visa_code = _code;
         visa_name = _name;
         is_active = true;

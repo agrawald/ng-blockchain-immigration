@@ -1,17 +1,18 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.8;
 
 import "./Owned.sol";
+import "./Artifact.sol";
 
 contract Verifier is Owned {
     bytes32 public name;
     address public wallet;
     bytes32[] doc_types;
     bool public status;
-    address[] artifacts;
+    Artifact[] artifacts;
 
     // constructors
-    function Verifier(bytes32 pName, address pWallet, bytes32[] pDocTypes) public {
-        owner = tx.origin;
+    constructor(bytes32 pName, address pWallet, bytes32[] memory pDocTypes) public {
+        owner = msg.sender;
         name = pName;
         wallet = pWallet;
         doc_types = pDocTypes;
@@ -22,15 +23,15 @@ contract Verifier is Owned {
         doc_types.push(pDocType) - 1;
     }
 
-    function getDocTypes() public view returns (bytes32[]) {
+    function getDocTypes() public view returns (bytes32[] memory) {
         return doc_types;
     }
 
-    function getArtifacts() public view returns (address[]) {
+    function getArtifacts() public view returns (Artifact[] memory) {
         return artifacts;
     }
 
-    function addArtifact(address _artifact) public {
+    function addArtifact(Artifact _artifact) public {
         artifacts.push(_artifact) - 1;
     }
 

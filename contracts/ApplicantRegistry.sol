@@ -1,4 +1,4 @@
-pragma solidity ^0.4.21;
+pragma solidity ^0.5.8;
 
 import "./Owned.sol";
 
@@ -7,7 +7,7 @@ contract ApplicantRegistry is Owned {
     mapping(address => bool) public applicant_status;
     uint public applicantCount;
 
-    function ApplicantRegistry() public {
+    constructor() public {
         owner = msg.sender;
     }
 
@@ -25,7 +25,7 @@ contract ApplicantRegistry is Owned {
         return applicant_status[_applicant];
     }
 
-    function getApplicants() public view returns (address[]) {
+    function getApplicants() public view returns (address[] memory) {
         return applicants;
     }
 }
