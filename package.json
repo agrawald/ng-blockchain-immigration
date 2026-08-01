@@ -83,6 +83,6 @@
     "typescript": "~2.5.3",
     "web3": "^4.16.0",
     "webpack": "^5.108.4",
-    "webpack-dev-server": "^5.2.5"
+    "webpack-dev-server": "^5.2.6"
   }
 }
